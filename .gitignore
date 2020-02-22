@@ -1,0 +1,18 @@
+vendor/
+node_modules/
+npm-debug.log
+
+# Composer
+composer.phar
+composer.lock
+
+# Environment
+.env
+.env.*.php
+.env.php
+
+# Todo
+IDEA
+idea
+.idea
+todo

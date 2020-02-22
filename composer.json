@@ -1,0 +1,33 @@
+{
+    "name": "belca/support-array",
+    "description": "Helper PHP functions for working with arrays in any projects.",
+    "keywords": ["support", "array", "helpers", "laravel", "dios", "belca"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oleg Dmitrochenko",
+            "email": "dmitrochenkooleg@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Belca\\Support\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Belca\\Support\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit tests",
+        "test-array": "vendor/bin/phpunit --bootstrap vendor/autoload.php tests/ArrTest.php"
+    }
+}
