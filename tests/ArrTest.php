@@ -1186,4 +1186,53 @@ final class ArrTest extends TestCase
             ],
         ];
     }
+
+    /**
+     * @param array $expected
+     * @param array $array
+     * @param array $keys
+     *
+     * @dataProvider unsetByReferenceProvider
+     */
+    public function testUnsetByReference(array $expected, array $array, array $keys)
+    {
+        Arr::unsetByReference($array, ...$keys);
+
+        $this->assertEquals($expected, $array);
+    }
+
+    public function unsetByReferenceProvider(): array
+    {
+        return [
+            [
+                [],
+                [],
+                [
+                    0, 2, 'six', 'seven', 'unknown'
+                ]
+            ],
+            [
+                [
+                    1 => 2, 3 => 4, 5, 8, 9, 'ten' => 10, 11
+                ],
+                [
+                    1, 2, 3, 4, 5, 'six' => 6, 'seven' => 7, 8, 9, 'ten' => 10, 11
+                ],
+                [
+                    0, 2, 'six', 'seven', 'unknown'
+                ]
+            ],
+            [
+                [
+                    1 => 2, 3 => 4, 5, 8, 9, 'ten' => 10, 11,
+                ],
+                [
+                    1, 2, 3, 4, 5, 'six' => 6, 'seven' => 7, 8, 9, 'ten' => 10, 11, 12, 13
+                ],
+                [
+                    [0, 2], ['six', 'seven', 'unknown'], [8, 9],
+                ]
+            ]
+        ];
+    }
 }

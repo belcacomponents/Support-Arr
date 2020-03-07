@@ -90,8 +90,7 @@ class Arr
                         unset($array[$key]);
                     }
 
-                    // Resets keys when they are integer keys
-                    // and they should be reset.
+                    // Resets keys when all keys in the array are integer keys
                     elseif (self::isIntKeys($value) && $resetIndex) {
                         $value = array_values($value);
                     }
@@ -127,8 +126,7 @@ class Arr
                             unset($array[$key]);
                         }
 
-                        // Resets keys when they are integer keys
-                        // and they should be reset.
+                        // Resets keys when all keys in the array are integer keys
                         elseif (self::isIntKeys($value) && $resetIndex) {
                             $value = array_values($value);
                         }
@@ -162,7 +160,7 @@ class Arr
     }
 
     /**
-     * A synonym for the function isArrayWithIntKey().
+     * A synonym for isArrayWithIntKey().
      *
      * @param  string  $array
      * @return bool
