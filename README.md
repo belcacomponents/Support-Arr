@@ -56,7 +56,7 @@ Now you can use all functions of the package.
 * [Arr::isFirstLastWithIntKeys](#array-is-first-last-with-int-keys)
 * [Arr::isIntKeys](#array-is-int-keys)
 * [Arr::last](#array-last)
-* [Arr::pushArray]($array-push)
+* [Arr::pushArray](#array-push-array)
 * [Arr::removeArrays](#array-remove-arrays)
 * [Arr::removeEmpty](#array-remove-empty)
 * [Arr::removeEmptyRecurcive](#array-remove-empty-recurcive)
