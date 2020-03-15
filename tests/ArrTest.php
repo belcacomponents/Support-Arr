@@ -1235,4 +1235,561 @@ final class ArrTest extends TestCase
             ]
         ];
     }
+
+    /**
+     * @param  array  $expected
+     * @param  array  $array
+     *
+     * @dataProvider getValuesUsingIntKeysProvider
+     */
+    public function testGetValuesUsingIntKeys(array $expected, array $array)
+    {
+        $this->assertEquals($expected, Arr::getValuesUsingIntKeys($array));
+    }
+
+    public function getValuesUsingIntKeysProvider(): array
+    {
+        return [
+            [
+                [],
+                []
+            ],
+            [
+                [
+                    'test',
+                    'test1',
+                    'test2',
+                    'test 5',
+                    'test1',
+                    'test 10',
+                    'test array',
+                ],
+                [
+                    'test',
+                    'test1',
+                    'test2',
+                    'test array' => [1, 2, 3],
+                    'test function' => function () {},
+                    10 => 'test 5',
+                    'test1',
+                    'test2' => 'Value 2',
+                    'test 5' => 'Text Five',
+                    'test 10',
+                    'test array',
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @param  array  $expected
+     * @param  array  $array
+     *
+     * @dataProvider getValuesUsingStringKeysProvider
+     */
+    public function testGetValuesUsingStringKeys(array $expected, array $array)
+    {
+        $this->assertEquals($expected, Arr::getValuesUsingStringKeys($array));
+    }
+
+    public function getValuesUsingStringKeysProvider(): array
+    {
+        return [
+            [
+                [],
+                []
+            ],
+            [
+                [
+                    'test array' => [1, 2, 3],
+                    'test function' => function () {},
+                    'test2' => 'Value 2',
+                    'test 5' => 'Text Five',
+                ],
+                [
+                    'test',
+                    'test1',
+                    'test2',
+                    'test array' => [1, 2, 3],
+                    'test function' => function () {},
+                    10 => 'test 5',
+                    'test1',
+                    'test2' => 'Value 2',
+                    'test 5' => 'Text Five',
+                    'test 10',
+                    'test array',
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @param array $expected
+     * @param array $array
+     *
+     * @dataProvider resetIntKeysProvider
+     */
+    public function testResetIntKeys(array $expected, array $array)
+    {
+        $this->assertEquals($expected, Arr::resetIntKeys($array));
+    }
+
+    public function resetIntKeysProvider(): array
+    {
+        return [
+            'empty' => [
+                [], []
+            ],
+            'integer' => [
+                [
+                    'val1',
+                    'val2',
+                    'val3',
+                    4,
+                    5,
+                    6,
+                    null,
+                    false
+                ],
+                [
+                    'val1',
+                    'val2',
+                    'val3',
+                    5 => 4,
+                    5,
+                    10 => 6,
+                    null,
+                    false
+                ]
+            ],
+            'string' => [
+                [
+                    'v1' => 'val1',
+                    'v2' => 'val2',
+                    'v3' => 'val3',
+                    'v4' => 4,
+                    'v5' => null,
+                    'v6' => false
+                ],
+                [
+                    'v1' => 'val1',
+                    'v2' => 'val2',
+                    'v3' => 'val3',
+                    'v4' => 4,
+                    'v5' => null,
+                    'v6' => false
+                ]
+            ],
+            'both' => [
+                [
+                    'v1' => 'val1',
+                    'v2' => 'val2',
+                    'v3' => 'val3',
+                    'v4' => 4,
+                    'v5' => null,
+                    'v6' => false,
+                    'val1',
+                    'val2',
+                    'val3',
+                    4,
+                    5,
+                    6,
+                    null,
+                    false
+                ],
+                [
+                    'v1' => 'val1',
+                    'v2' => 'val2',
+                    'v3' => 'val3',
+                    'v4' => 4,
+                    'v5' => null,
+                    'v6' => false,
+                    'val1',
+                    'val2',
+                    'val3',
+                    5 => 4,
+                    5,
+                    10 => 6,
+                    null,
+                    false
+                ]
+            ]
+        ];
+    }
+
+    /**
+     * @param  int|string|null $expected
+     * @param  array           $keys
+     * @param  string          $key
+     *
+     * @dataProvider findFirstIndexByKeyProvider
+     */
+    public function testFindFirstIndexByKey($expected, array $keys, string $key)
+    {
+        $this->assertEquals($expected, Arr::findFirstIndexByKey($keys, $key));
+    }
+
+    public function findFirstIndexByKeyProvider(): array
+    {
+        return [
+            'empty' => [
+                null,
+                [],
+                'key'
+            ],
+            'no_key' => [
+                null,
+                [
+                    'key1',
+                    'key2',
+                    function () {},
+                    'key3' => 'value',
+                    'key4' => 'value 2',
+                    10 => 'key5',
+                ],
+                'key10'
+            ],
+            'first_key' => [
+                0,
+                [
+                    'key1',
+                    'key2',
+                    'key3' => 'value',
+                    'key4' => 'value 2',
+                    10 => 'key5',
+                    'key1',
+                ],
+                'key1'
+            ],
+            'key5' => [
+                10,
+                [
+                    'key1',
+                    'key2',
+                    'key3' => 'value',
+                    'key4' => 'value 2',
+                    10 => 'key5',
+                    'key1',
+                    'key5'
+                ],
+                'key5'
+            ],
+            'key4' => [
+                'key4',
+                [
+                    'key1',
+                    'key2',
+                    'key3' => 'value',
+                    'key4' => 'value 2',
+                    10 => 'key5',
+                    'key1',
+                    'key5'
+                ],
+                'key4'
+            ],
+        ];
+    }
+
+    /**
+     * @param  string|null $expected
+     * @param  int|string  $key
+     * @param  mixed       $value
+     *
+     * @dataProvider getKeyFromPairOfValuesProvider
+     */
+    public function testGetKeyFromPairOfValues($expected, $key, $value, $intKey)
+    {
+        $this->assertEquals($expected, Arr::getKeyFromPairOfValues($key, $value, $intKey));
+    }
+
+    public function getKeyFromPairOfValuesProvider(): array
+    {
+        return [
+            'null' => [
+                null,
+                function () {},
+                function () {},
+                true
+            ],
+            'first_key' => [
+                'key',
+                'key',
+                'value',
+                true
+            ],
+            'key_is_int' => [
+                1,
+                1,
+                'value',
+                true
+            ],
+            'value' => [
+                'value',
+                1,
+                'value',
+                false
+            ],
+            'function' => [
+                null,
+                1,
+                function () {},
+                false
+            ],
+            'key_is_int_value_is_function' => [
+                1,
+                1,
+                function () {},
+                true
+            ],
+            'key_as_null' => [
+                'value',
+                null,
+                'value',
+                false
+            ],
+            'int' => [
+                null,
+                0,
+                1,
+                false
+            ],
+        ];
+    }
+
+    /**
+     * @param  array  $expected
+     * @param  array  $keys
+     * @param  bool   $rewrite
+     *
+     * @dataProvider uniteKeysProvider
+     */
+    public function testUniteKeys(array $expected, array $keys, bool $rewrite)
+    {
+        $this->assertEquals($expected, Arr::uniteKeys($keys, $rewrite));
+    }
+
+    public function uniteKeysProvider(): array
+    {
+        return [
+            'empty' => [
+                [],
+                [],
+                true
+            ],
+            'without_changes' => [
+                [
+                    'test',
+                    'test1',
+                    'test2',
+                    'test array' => [1, 2, 3],
+                    'test function' => function () {},
+                    'test 5'
+                ],
+                [
+                    'test',
+                    'test1',
+                    'test2',
+                    'test array' => [1, 2, 3],
+                    'test function' => function () {},
+                    10 => 'test 5'
+                ],
+                true
+            ],
+            'rewrite' => [
+                [
+                    'test',
+                    'test function' => function () {},
+                    'test2' => 'Value 2',
+                    'test 5' => 'Text Five',
+                    'test1',
+                    'test 10',
+                    'test array',
+                ],
+                [
+                    'test',
+                    'test1',
+                    'test2',
+                    'test array' => [1, 2, 3],
+                    'test function' => function () {},
+                    10 => 'test 5',
+                    'test1',
+                    'test2' => 'Value 2',
+                    'test 5' => 'Text Five',
+                    'test 10',
+                    'test array',
+                ],
+                true
+            ],
+            'not-rewrite' => [
+                [
+                    'test',
+                    'test1',
+                    'test2',
+                    'test array' => [1, 2, 3],
+                    'test function' => function () {},
+                    'test 5',
+                    'test 10',
+                ],
+                [
+                    'test',
+                    'test1',
+                    'test2',
+                    'test array' => [1, 2, 3],
+                    'test function' => function () {},
+                    10 => 'test 5',
+                    'test1',
+                    'test2' => 'Value 2',
+                    'test 5' => 'Text Five',
+                    'test 10',
+                    'test array',
+                ],
+                false
+            ]
+        ];
+    }
+
+    /**
+     * @param  array  $expected
+     * @param  array  $source
+     * @param  array  $array
+     * @param  bool   $replace
+     *
+     * @dataProvider mergeKeysProvider
+     */
+    public function testMergeKeys(array $expected, array $source, array $array, bool $replace)
+    {
+        $this->assertEquals($expected, Arr::mergeKeys($source, $array, $replace));
+    }
+
+    public function mergeKeysProvider(): array
+    {
+        return [
+            [
+                [], [], [], true
+            ],
+            'not_changed' => [
+                [
+                    'test',
+                    'test function' => function () {},
+                    'test1',
+                    'test2' => 'Value 2',
+                    'test 5' => 'Text Five',
+                    'test 10',
+                    'test array',
+                    'item5'
+                ],
+                [
+                    'test',
+                    'test1',
+                    'test2',
+                    'test array' => [1, 2, 3],
+                    'test function' => function () {},
+                    10 => 'test 5',
+                    'test1',
+                    'test2' => 'Value 2',
+                    'test 5' => 'Text Five',
+                    'test 10',
+                    'test array',
+                ],
+                [
+                    'item5',
+                ],
+                true
+            ],
+            'changed' => [
+                [
+                    'test',
+                    'test function' => function () {},
+                    'test2' => 'Value 2',
+                    'test 10',
+                    'test 5',
+                    'test1' => function () {},
+                    'test array' => [3, 2, 1],
+                    'new item' => 'value',
+                    'item5',
+                    'item6'
+                ],
+                [
+                    'test',
+                    'test1',
+                    'test2',
+                    'test array' => [1, 2, 3],
+                    'test function' => function () {},
+                    10 => 'test 5',
+                    'test1',
+                    'test2' => 'Value 2',
+                    'test 5' => 'Text Five',
+                    'test 10',
+                    'test array',
+                ],
+                [
+                    'test 5',
+                    'test1' => function () {},
+                    'test array' => [3, 2, 1],
+                    'new item' => 'value',
+                    'item5',
+                    'item6'
+                ],
+                true
+            ],
+            'in_empty_array' => [
+                [
+                    'test 5',
+                    'test array' => [3, 2, 1],
+                    'new item' => 'value',
+                    'item6',
+                    'item5' => 'value',
+                    'test1'
+                ],
+                [],
+                [
+                    'test 5',
+                    'test1' => function () {},
+                    'test array' => [3, 2, 1],
+                    'new item' => 'value',
+                    'item5',
+                    'item6',
+                    'item5' => 'value',
+                    'test1'
+                ],
+                true
+            ],
+            'not_replaced' => [
+                [
+                    'test',
+                    'test function' => function () {},
+                    'test1',
+                    'test2' => 'Value 2',
+                    'test 5' => 'Text Five',
+                    'test 10',
+                    'test array',
+                    'new item' => 'value',
+                    'item5',
+                    'item6'
+                ],
+                [
+                    'test',
+                    'test1',
+                    'test2',
+                    'test array' => [1, 2, 3],
+                    'test function' => function () {},
+                    10 => 'test 5',
+                    'test1',
+                    'test2' => 'Value 2',
+                    'test 5' => 'Text Five',
+                    'test 10',
+                    'test array',
+                ],
+                [
+                    'test 5',
+                    'test1' => function () {},
+                    'test array' => [3, 2, 1],
+                    'new item' => 'value',
+                    'item5',
+                    'item6'
+                ],
+                false
+            ]
+        ];
+    }
 }

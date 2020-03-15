@@ -337,4 +337,140 @@ class Arr
 
         return null;
     }
+
+    /**
+     * Returns an array of values from the source array that are integer keys.
+     * The keys of the source array are not saved.
+     *
+     * @param  array $array
+     * @return array
+     */
+    public static function getValuesUsingIntKeys(array $array): array
+    {
+        $values = array_filter($array, 'is_int', ARRAY_FILTER_USE_KEY);
+
+        return array_values($values);
+    }
+
+    /**
+     * Returns an array of values from the source array that are string keys.
+     * The keys of the source array are saved.
+     *
+     * @param  array $array
+     * @return array
+     */
+    public static function getValuesUsingStringKeys(array $array): array
+    {
+        return array_filter($array, 'is_string', ARRAY_FILTER_USE_KEY);
+    }
+
+    /**
+     * Resets integer keys and return the new array.
+     * First integer keys, then string keys.
+     *
+     * @param  array $array
+     * @return array
+     */
+    public static function resetIntKeys(array $array): array
+    {
+        $onlyKeys = Arr::getValuesUsingIntKeys($array);
+        $keysWithValues = Arr::getValuesUsingStringKeys($array);
+
+        return $onlyKeys + $keysWithValues;
+    }
+
+    /**
+     * Finds the first index by the string key in the array of keys and returns its.
+     *
+     * @param  array            $keys
+     * @param  int|string|mixed $key
+     * @return int|string|null
+     */
+    public static function findFirstIndexByKey(array $keys, string $key)
+    {
+        foreach ($keys as $index => $value) {
+            if ((is_string($index) && $key === $index) || ($key === $value)) {
+                return $index;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns a key from the pair of a key and a value.
+     * If $intKey is 'true' then the key can be integer key, else only string key.
+     *
+     * @param  int|string $key
+     * @param  mixed      $value
+     * @param  bool       $intKey
+     * @return string|null
+     */
+    public static function getKeyFromPairOfValues($key, $value, $intKey = true)
+    {
+        if (is_string($key) || ($intKey && is_int($key))) {
+            return $key;
+        } elseif (is_string($value)) {
+            return $value;
+        }
+
+        return null;
+    }
+
+    /**
+     * Returns united keys and their values from the array of keys.
+     *
+     * @param  array $keys
+     * @param  bool  $rewrite
+     * @return array
+     */
+    public static function uniteKeys(array $keys, bool $rewrite = true): array
+    {
+        return self::mergeKeys([], $keys, $rewrite);
+    }
+
+    /**
+     * Merges arrays of keys and returns the new array.
+     * If the first array (an array of keys) is empty then the function returns
+     * a result similar to the uniteKeys() function.
+     *
+     * @param  array $keys
+     * @param  array $array
+     * @param  bool  $replace
+     * @return array
+     */
+    public static function mergeKeys(array $keys, array $array, $replace = true): array
+    {
+        if (count($keys) === 0 and count($array) === 0) {
+            return [];
+        }
+
+        $keys = self::uniteKeys($keys);
+
+        foreach ($array as $key => $value) {
+            /** @var string|null **/
+            $needle = self::getKeyFromPairOfValues($key, $value, false);
+
+            if (! isset($needle)) {
+                break;
+            }
+
+            /** @var string|int|null **/
+            $index = self::findFirstIndexByKey($keys, $needle);
+
+            // Removes an existing key if necessary
+            if ($index && $replace) {
+                unset($keys[$index]);
+            }
+
+            // Adds a new key and its value if necessary
+            if ((is_string($key) && $index && $replace) || (is_string($key) && ! $index)) {
+                $keys[$key] = $value;
+            } elseif ($replace || ! $index) {
+                $keys[] = $value;
+            }
+        }
+
+        return self::resetIntKeys($keys);
+    }
 }
