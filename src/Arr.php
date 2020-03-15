@@ -310,7 +310,7 @@ class Arr
      * @param  mixed ...$values
      * @return mixed|null
      */
-    public function firstExists(...$values)
+    public static function firstExists(...$values)
     {
         foreach ($values as $value) {
             if (isset($value)) {
@@ -327,7 +327,7 @@ class Arr
      * @param  mixed ...$values
      * @return mixed|null
      */
-    public function firstNotEmpty(...$values)
+    public static function firstNotEmpty(...$values)
     {
         foreach ($values as $value) {
             if (empty($value) === false) {
