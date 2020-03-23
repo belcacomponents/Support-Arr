@@ -1792,4 +1792,609 @@ final class ArrTest extends TestCase
             ]
         ];
     }
+
+    /**
+     * @param  array  $expected
+     * @param  array  $leftArray
+     * @param  array  $rightArray
+     *
+     * @dataProvider intersectionProvider
+     */
+    public function testIntersection(array $expected, array $leftArray, array $rightArray)
+    {
+        $this->assertEquals($expected, Arr::intersection($leftArray, $rightArray));
+    }
+
+    public function intersectionProvider(): array
+    {
+        return [
+            [
+                [], [], []
+            ],
+            [
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ]
+            ],
+            [
+                [
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 4,
+                        'b' => 4,
+                        'c' => 4,
+                    ],
+                ]
+            ],
+            [
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                        'd' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                        'd' => 3,
+                    ],
+                ]
+            ],
+            [
+                [],
+                [],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                        'd' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                        'd' => 3,
+                    ],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @param  array  $expected
+     * @param  array  $leftArray
+     * @param  array  $rightArray
+     *
+     * @dataProvider leftDivergenceProvider
+     */
+    public function testLeftDivergence(array $expected, array $leftArray, array $rightArray)
+    {
+        $this->assertEquals($expected, Arr::leftDivergence($leftArray, $rightArray));
+    }
+
+    public function leftDivergenceProvider(): array
+    {
+        return [
+            [
+                [], [], []
+            ],
+            [
+                [
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ]
+            ],
+            [
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 4,
+                        'b' => 4,
+                        'c' => 4,
+                    ],
+                ]
+            ],
+            [
+                [
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                        'd' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                        'd' => 3,
+                    ],
+                ]
+            ],
+            [
+                [],
+                [],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                        'd' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                        'd' => 3,
+                    ],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @param  array  $expected
+     * @param  array  $leftArray
+     * @param  array  $rightArray
+     *
+     * @dataProvider rightDivergenceProvider
+     */
+    public function testRightDivergence(array $expected, array $leftArray, array $rightArray)
+    {
+        $this->assertEquals($expected, Arr::rightDivergence($leftArray, $rightArray));
+    }
+
+    public function rightDivergenceProvider(): array
+    {
+        return [
+            [
+                [], [], []
+            ],
+            [
+                [],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ]
+            ],
+            [
+                [
+                    [
+                        'a' => 4,
+                        'b' => 4,
+                        'c' => 4,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 4,
+                        'b' => 4,
+                        'c' => 4,
+                    ],
+                ]
+            ],
+            [
+                [
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                        'd' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                        'd' => 3,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                        'd' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                        'd' => 3,
+                    ],
+                ]
+            ],
+            [
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                        'd' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                        'd' => 3,
+                    ],
+                ],
+                [],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                        'd' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                        'd' => 3,
+                    ],
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * @param  array  $expected
+     * @param  array  $leftArray
+     * @param  array  $rightArray
+     *
+     * @dataProvider differenceProvider
+     */
+    public function testDifference(array $expected, array $leftArray, array $rightArray)
+    {
+        $this->assertEquals($expected, Arr::difference($leftArray, $rightArray));
+    }
+
+    public function differenceProvider(): array
+    {
+        return [
+            [
+                [
+                    'left' => [
+                        [
+                            'a' => 2,
+                            'b' => 2,
+                            'c' => 2,
+                        ],
+                        [
+                            'a' => 3,
+                            'b' => 3,
+                            'c' => 3,
+                        ],
+                    ],
+                    'intersection' => [
+                        [
+                            'a' => 1,
+                            'b' => 1,
+                            'c' => 1,
+                        ],
+                    ],
+                    'right' => [
+                        [
+                            'a' => 2,
+                            'b' => 2,
+                            'c' => 2,
+                            'd' => 2,
+                        ],
+                        [
+                            'a' => 3,
+                            'b' => 3,
+                            'c' => 3,
+                            'd' => 3,
+                        ],
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                    ],
+                ],
+                [
+                    [
+                        'a' => 1,
+                        'b' => 1,
+                        'c' => 1,
+                    ],
+                    [
+                        'a' => 2,
+                        'b' => 2,
+                        'c' => 2,
+                        'd' => 2,
+                    ],
+                    [
+                        'a' => 3,
+                        'b' => 3,
+                        'c' => 3,
+                        'd' => 3,
+                    ],
+                ]
+            ]
+        ];
+    }
 }

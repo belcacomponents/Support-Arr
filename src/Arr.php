@@ -222,8 +222,8 @@ class Arr
     }
 
     /**
-     * Joins values of other arrays to a source array. Values with string keys
-     * will be replace when they equals, values with number keys will be adjoins
+     * Joins values of other arrays to the source array. Values with string keys
+     * will be replaced when they equals, values with number keys will be adjoined
      * to the source array.
      *
      * @param  array &$source
@@ -472,5 +472,90 @@ class Arr
         }
 
         return self::resetIntKeys($keys);
+    }
+
+
+    /**
+     * Differences between two arrays and returns its.
+     *
+     * The structure of the result:
+     * [
+     *    'left' => [
+     *        // values that are in the left array and who are not in the right array
+     *    ],
+     *    'intersection' => [
+     *        // intersecting values
+     *    ],
+     *    'right' => [
+     *        // values that are in the right array and who are not in the left array
+     *    ]
+     * ]
+     *
+     * @param  array $leftArray
+     * @param  array $rightArray
+     * @return array
+     */
+    public static function difference(array $leftArray, array $rightArray): array
+    {
+        $left = [];
+        $intersection = [];
+        $right = $rightArray; // At first all values are new
+
+        foreach ($leftArray as $item) {
+            /** @var int|bool $index **/
+            $index = array_search($item, $rightArray);
+
+            if ($index !== false) {
+                $intersection[] = $item;
+
+                // Excludes a new item
+                unset($right[$index]);
+            } else {
+                $left[] = $item;
+            }
+        }
+
+        // Reset keys
+        $right = array_values($right);
+
+        return compact('left', 'intersection', 'right');
+    }
+
+    /**
+     * Returns intersecting values of the arrays.
+     *
+     * @param  array $leftArray
+     * @param  array $rightArray
+     * @return array
+     */
+    public static function intersection(array $leftArray, array $rightArray): array
+    {
+        return self::difference($leftArray, $rightArray)['intersection'];
+    }
+
+    /**
+     * Returns divergence from the right array. That is returns values
+     * that are in the left array and that are not in the right array.
+     *
+     * @param  array $leftArray
+     * @param  array $rightArray
+     * @return array
+     */
+    public static function leftDivergence(array $leftArray, array $rightArray): array
+    {
+        return self::difference($leftArray, $rightArray)['left'];
+    }
+
+    /**
+     * Returns divergence from the left array. That is returns values
+     * that are in the right array and that are not in the left array.
+     *
+     * @param  array $leftArray
+     * @param  array $rightArray
+     * @return array
+     */
+    public static function rightDivergence(array $leftArray, array $rightArray): array
+    {
+        return self::difference($leftArray, $rightArray)['right'];
     }
 }

@@ -76,12 +76,12 @@ If $replace is 'true' then all existing value with same keys will be replaced wi
 Unlike the array_merge() the function does not create and it does not returns a new array, it works with the source array.
 Unlike the array_merge() that adds a new array to the first array when to use integer keys, Arr::concatArray() replaces identical integer keys as if they associative keys.
 
-Функция заменяет операции `$array1 += $array2` и `$array2 + $array1`, в зависимости от переданного параметра *$replace*.
+The function executes `$array1 += $array2` or `$array2 + $array1` operations in accordance with a given *$replace* parameter.
 
-Параметры функции:
-- &$source - исходный массив (используется ссылка на массив);
-- $array - добавляемый массив;
-- $replace - замена значений. Если **$replace** - *true*, то все существующие значения с одинаковыми ключами будут заменены на новые.
+Parameters:
+- &$source - a source array;
+- $array - an array to concat;
+- $replace - replacing values. If **$replace** is *true* then all existing values that have same keys will be replaced.
 
 ** Пример 1: добавление новых значений в массив и замена значений с одинаковыми ключами, массив с цифровыми ключами.**
 
@@ -221,7 +221,7 @@ $result6 = Arr::isFirstLastWithIntKeys($array6); // false, потому что �
 
 `Arr::isIntKeys(array $array) : boolean`
 
-A synonym for `Arr::isArrayWithIntKeys()`.
+The alias of `Arr::isArrayWithIntKeys()`.
 
 ```php
 $normalArray = [1, 2, 3, 4, 5, 6, 7, 8, 10];
@@ -235,7 +235,7 @@ $result2 = Arr::isIntKeys($badArray); // false
 
 `Arr::last(&$array) : mixed`
 
-Функция возвращает последний элемент массива. Не смотря на то, что в функцию передается ссылка на массив, внутренний указатель массива не сбрасывается.
+Returns the last item of a given array. The pointer of the position of the array is saving.
 
 ```php
 $array = [5 => 1, 2, 3, 4, 5];
@@ -247,7 +247,7 @@ $last = Arr::last($array); // Output: 5
 
 `Arr::pushArray(&$array, ...$array) : void`
 
-Присоединяет к базовому массиву значения других массивов. Значения со строковыми ключами будут заменяться, в случае совпадения, а значения с числовыми ключами будут добавляться.
+Joins values of other arrays to the source array. Values with string keys will be replaced when they equals, values with number keys will be adjoined to the source array.
 
 ```php
 $source = [1, 2, 3, 'key1' => 1, 'key2' => 2, 'key3' => 3];
@@ -270,10 +270,10 @@ See [`Arr::concatArray()`](#array-concat-array).
 
 `Arr::removeArrays($array, $resetIndex = false) : array`
 
-Удаляет из массива вложенные массивы (подмассивы).
+Removes nested arrays (subarrays) from an array. If $resetIndex is 'true' then resets keys of the array.
 
-Параметры функции:
-- $array - любой массив;
+Parameters:
+- $array - an array;
 - $resetIndex - сброс массива. Если **$resetIndex** - *true*, то сбрасывает ключи массива.
 
 ** Пример 1: удаление внутренних массивов. **
