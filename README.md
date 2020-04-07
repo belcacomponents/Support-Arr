@@ -72,8 +72,11 @@ Now you can use all functions of the package.
 `Arr::concatArray(&$source, $array, $replace = true) : void`
 
 Adds new values with new keys to the end of a source array.
+
 If $replace is 'true' then all existing value with same keys will be replaced with new values.
+
 Unlike the array_merge() the function does not create and it does not returns a new array, it works with the source array.
+
 Unlike the array_merge() that adds a new array to the first array when to use integer keys, Arr::concatArray() replaces identical integer keys as if they associative keys.
 
 The function executes `$array1 += $array2` or `$array2 + $array1` operations in accordance with a given *$replace* parameter.
@@ -83,7 +86,7 @@ Parameters:
 - $array - an array to concat;
 - $replace - replacing values. If **$replace** is *true* then all existing values that have same keys will be replaced.
 
-** Пример 1: добавление новых значений в массив и замена значений с одинаковыми ключами, массив с цифровыми ключами.**
+**Example #1: Adding new values in the array and replacing values with same keys. The array has integer keys.**
 
 ```php
 $source = [1, 2, 3, 4, 5, 6];
@@ -94,9 +97,9 @@ Arr::concatArray($source, $array);
 // Output $source: [6, 7, 8, 9, 10, 11, 12];
 ```
 
-В примере выше может показаться неожиданный результат, т.к. все значения были переписаны значениями нового массива. Это произошло из-за того, что все ключи массива совпадали и было добавлено одно новое значение - *12*.
+First 6 values of the soure array were be replaced the new values. Also was added a new value: 12. This was happened because keys of the source array coincided with the second array.
 
-** Пример 2: добавление новых значений в массив и замена значений с одинаковыми ключами, массив с цифровыми ключами. Смещение цифрового ключа.**
+**Example #2: Adding new values in the array and replacing values with same keys. The keys of the second array are offset.**
 
 ```php
 $source = [1, 2, 3, 4, 5, 6];
@@ -107,11 +110,11 @@ Arr::concatArray($source, $array);
 // Output $source: [1, 2, 3, 4, 5, 6, 6, 7, 8, 9, 10, 11, 12];
 ```
 
-В примере выше мы получили уже необходимый для нас результат, т.е. присоединили новые значения к переданному массиву. Такой результат наиболее полезен при работе с ассоциативными массивами.
+In this example we get the necessary result, the function concatenated the new values to the source array. This may sometimes be useful.
 
-В примере ниже мы используем ассоциативный массив, в котором будут переписаны значения с совпадающими ключами добавляемого массива.
+In the next example we will be to use an associative array where values that have same keys will be replaced.
 
-** Пример 3: добавление новых значений в массив с заменой предыдущих значений с одинаковыми ключами. **
+**Example #3: Adding new values in the array and replacing old values with same keys.**
 
 ```php
 $source = ['key1' => 1, 'key2' => 2];
@@ -122,11 +125,11 @@ Arr::concatArray($source, $newValues);
 // Output $source: ['key1' => 1, 'key2' => 3, 'key3' => 4];
 ```
 
-Однако не всегда может быть полезным заменять значения исходного массива и может быть необходимость добавлять исключительно новые значения, которых еще не было в исходном массиве.
+However replacing values of the source array may not always be useful. You may add only new values that are not yet in the source array.
 
-Такой пример показан ниже.
+See this example.
 
-** Пример 4: добавление только новых значений в массив. **
+**Example 4: Adding only new values in the array.**
 
 ```php
 $source = ['key1' => 1, 'key2' => 2];
@@ -137,9 +140,10 @@ Arr::concatArray($source, $newValues, false);
 // Output $source: ['key1' => 1, 'key2' => 2, 'key3' => 4];
 ```
 
-Как вы заметили, функция не возвращает результат, а работает с исходным массивом, т.е. передается по ссылке.
+You might sight the function do not returns a result, it process the source array.
 
-See [`Arr::pushArray()`](#array-push-array).
+**See also**:
+- [`Arr::pushArray()`](#array-push-array).
 
 ### <a name="array-first-exists"></a> Arr::firstExists
 
@@ -170,6 +174,7 @@ $result = Arr::firstNotEmpty(null, null, false, 0, '', 'value', true, []); // Ou
 
 Checks whether integer keys are in an array. Uses for detecting non-associative arrays.
 Returns 'true' if all keys of the array are integer.
+
 The empty array is not the integer array, because that its keys cannot be detected.
 
 ```php
@@ -186,7 +191,9 @@ $array4 = [50 => 1, 'a2' => 3, 'a3' => 4, 0 => 1];
 $result4 = Arr::isArrayWithIntKeys($array5); // false
 ```
 
-See [`Arr::isIntKeys()`](#array-is-int-keys).
+**See also**:
+- [Arr::isFirstLastWithIntKeys()](#array-is-first-last-with-int-keys);
+- [Arr::isIntKeys()](#array-is-int-keys).
 
 ### <a name="array-is-first-last-with-int-keys"></a> Arr::isFirstLastWithIntKeys
 
@@ -195,33 +202,38 @@ See [`Arr::isIntKeys()`](#array-is-int-keys).
 Checks whether the first value and the last value have integer keys.
 Returns 'true' if they are integer.
 Uses for simple detecting non-associative arrays.
+
 The function is analogue isArrayWithIntKeys(), but keys must have some one from types: string keys or integer key.
+
 The empty array is not the integer array, because that its keys cannot be detected.
 
 ```php
 $array1 = [1, 2, 3, 4, 5, 6, 7, 8, 10];
 $result1 = Arr::isFirstLastWithIntKeys($array1); // true
 
-$array2 = []; // false
-$result2 = Arr::isFirstLastWithIntKeys($array2); // false, потому что пустой массив
+$array2 = [];
+$result2 = Arr::isFirstLastWithIntKeys($array2); // false, because the array is empty
 
-$array4 = ['1' => 1, 2, 3, '4' => 4];
-$result4 = Arr::isFirstLastWithIntKeys($array4); // true, потому что числа в строке преобразованы в integer
+$array3 = ['1' => 1, 2, 3, '4' => 4];
+$result3 = Arr::isFirstLastWithIntKeys($array4); // true, because the number in the keys converted to the integer
 
-$array5 = [50 => 1, 'a2' => 3, 'a3' => 4, 0 => 1];
-$result5 = Arr::isFirstLastWithIntKeys($array5); // true, потому что первый и последний ключ является числовым
+$array4 = [50 => 1, 'a2' => 3, 'a3' => 4, 0 => 1];
+$result4 = Arr::isFirstLastWithIntKeys($array5); // true, because the first and the last keys are the integer
 
-$array6 = [50 => 1, 'a2' => 3, 'a3' => 4, 'one' => 1];
-$result6 = Arr::isFirstLastWithIntKeys($array6); // false, потому что последний ключ строка
+$array5 = [50 => 1, 'a2' => 3, 'a3' => 4, 'one' => 1];
+$result5 = Arr::isFirstLastWithIntKeys($array6); // false, because the last key is the string
 ```
 
-В отличии от фукнции [`Arr::isArrayWithIntKeys()` (`Arr::isIntKeys()`)](#array-is-array-with-int-keys), которая может пройти весь массив, текущая функция проверяет только первое и последнее значение, что выполнится быстрее.
+In comparasion with  [`Arr::isArrayWithIntKeys()` (`Arr::isIntKeys()`)](#array-is-array-with-int-keys), that may scan all values of an array, this function checks only the first and the last keys, that doing more faster.
+
+**See also**:
+- [Arr::isIntKeys()](#array-is-int-keys).
 
 ### <a name="array-is-int-keys"></a> Arr::isIntKeys
 
 `Arr::isIntKeys(array $array) : boolean`
 
-The alias of `Arr::isArrayWithIntKeys()`.
+The alias of [`Arr::isArrayWithIntKeys()`](#array-is-array-with-int-keys).
 
 ```php
 $normalArray = [1, 2, 3, 4, 5, 6, 7, 8, 10];
@@ -260,11 +272,12 @@ Arr::pushArray($source, $array1, $array2);
 // [1, 2, 3, 'key1' => 10, 'key2' => 2, 'key3' => 3, 4, 5, 6, 1, 2, 3]
 ```
 
-Обратите внимание результат примера. Значения *1, 2, 3* из массива $array2 были добавлены в исходный массив, при этом в массиве уже были такие элементы и появились одинаковые значения.
+See the result. *1, 2, 3* values from $array2 were added in the source array, but the source array had these values and were added duplicates.
 
-Если вам не нужны одинаковые значения в массиве, то воспользуйтесь функцией `array_unique()` для возврата только уникальных значений, однако это коснется и значений со строковыми ключами, где разные ключи могут иметь одинаковые значения.
+If you want not same values in an array, then use `array_unique()` to get only unique values. The function will be apply to all keys, even to string keys, where different keys may keep same values.
 
-See [`Arr::concatArray()`](#array-concat-array).
+**See also**:
+- [Arr::concatArray()](#array-concat-array).
 
 ### <a name="array-remove-arrays"></a> Arr::removeArrays
 
@@ -274,10 +287,9 @@ Removes nested arrays (subarrays) from an array. If $resetIndex is 'true' then r
 
 Parameters:
 - $array - an array;
-- $resetIndex - сброс массива. Если **$resetIndex** - *true*, то сбрасывает ключи массива.
+- $resetIndex - the reset of keys of the array. If **$resetIndex** is *true* then resets keys of the array.
 
-** Пример 1: удаление внутренних массивов. **
-
+**Example 1: Removing inner arrays.**
 ```php
 $array = [
     1,
@@ -312,12 +324,11 @@ $result = Arr::removeArrays($array);
 // ];
 ```
 
-В примере выше мы удалили все массивы и оставили другие значения.
+In the example in the array were removed all arrays and kept other values.
 
-Иногда при такой операции может потребоваться обнулять и ключи массива, как это показано в примере ниже.
+Sometimes you need to reset keys of an array as shown below.
 
-** Пример 2: удаление внутренних массивов и сброс ключей массива. **
-
+**Example 2: Remove inner arrays and resetting keys the array.**
 ```php
 $array = [
     1,
@@ -337,7 +348,7 @@ $array = [
     'object' => new stdClass(),
 ];
 
-$result = Arr::removeArrays($array);
+$result = Arr::removeArrays($array, true);
 
 // Output: [1, 2, 3, 4, 5, 7, 8, 9, new stdClass()];
 ```
@@ -367,6 +378,7 @@ Parameters:
 - $array - some array;
 - $resetIndex - the reset of keys of the array. If **$resetIndex** is *true* then resets integer keys of each array, including keys set manually.
 
+**Example #1. Recursive removing empty values and resetting keys of arrays.**
 ```php
 $array = [
     1 => [1, 2, 3 => [1, 2, 3, 4, [], null], 4, ''],
@@ -396,8 +408,9 @@ $result = Arr::removeEmptyRecurcive($array);
 // ]
 ```
 
-В примере выше сброс ключей произешел только в тех массивах, в которых все ключи были числовыми. Таким образом основные ключи массива и ключи значения `$arrar['a3']` остались без изменений, а все другие ключи были обнулены.
+In the example you see that resetting keys were only in arrays with integer keys. So the basic keys of the array and the keys of the `$arrar['a3']` value was not changed, and the others keys were reset.
 
+**Example 2. Recursive removing empty values without resetting keys**
 ```php
 $array = [
     1 => [1, 2, 3 => [1, 2, 3, 4, [], null], 4, ''],
@@ -427,9 +440,10 @@ $result = Arr::removeEmptyRecurcive($array, false);
 // ]
 ```
 
-В примере выше все ключи остались без изменений, потому что в качестве аргумента **$resetIndex** мы указали *false*.
+In the example the keys were not changed, because **$resetIndex** was set as *false*.
 
-See [`Arr::removeNullRecurcive()`](#array-remove-null-recurcive).
+**See also**:
+- [Arr::removeNullRecurcive()](#array-remove-null-recurcive).
 
 ### <a name="array-remove-not-scalar"></a> Arr::removeNotScalar
 
@@ -469,7 +483,7 @@ Parameters:
 - $array - some array;
 - $resetIndex - the reset of keys of the array. If **$resetIndex** is *true* then resets integer keys of each array, including keys set manually. If an array has one or more non-integer key then keys are saving. If the function takes not array then it returns an unchanged value.
 
-** Example: Removes values of 'null' and does not save other keys **
+**Example 1: Removing values with 'null' and resetting keys.**
 ```php
 $array = [
     1 => [1, 2, 3 => [1, 2, 3, 4, [], null], 4, ''],
@@ -501,10 +515,9 @@ $result = Arr::removeNullRecurcive($array);
 //    5 => false,
 // ]
 ```
+In the example performing resetting keys of the arrays where all keys of an array are integer. So the keys of `$array[2]` were not changed, but the index of the value was changed.
 
-В примере выше происходит сброс ключей массива, если все ключи обрабатываемого массива числовые. Таким образом ключи значения `$array[2]` остались неизменными, хотя сам индекс этого значения изменился.
-
-** Example: Removes values with 'null' and saves other keys **
+**Example 2: Removing values with 'null' and without resetting keys.**
 ```php
 $array = [
     1 => [1, 2, 3 => [1, 2, 3, 4, [], null], 4, ''],
@@ -537,7 +550,8 @@ $result = Arr::removeNullRecurcive($array, false);
 // ]
 ```
 
-See [`Arr::removeEmptyRecurcive()`](#array-remove-empty-recurcive).
+**See also**:
+- [Arr::removeEmptyRecurcive()](#array-remove-empty-recurcive).
 
 ### <a name="array-trim"></a> Arr::trim
 
@@ -614,9 +628,7 @@ $output = Arr::unset($array, [0, 'four'], [['eight'], [4], []]);
 // ]
 ```
 
-Как видите из примера выше, функция принимает практически любые допустимые ключи и вложенные массивы, которые могут содержать ключи.
-
-Эта функция может быть полезна, когда необходимо удалить из массива заранее неизвестные значения, но будут известны их индексы. Похожего эффекта можно достичь с помощью функции `array_filter()`, однако эта функция более читаема, компакта и универсальна.
+This function may be useful when you need to remove from an array unknown values by knowing their indexes. The same effect may be get using `array_filter()` or `unset()`, but this function are more readable and compact.
 
 ### <a name="array-unset-by-reference"></a> Arr::unsetByReference
 
@@ -624,7 +636,7 @@ $output = Arr::unset($array, [0, 'four'], [['eight'], [4], []]);
 
 Removes values of an array by given keys. The function do not return a result.
 
-** Example: Remove values using simple keys **
+**Example 1: Removing values using simple keys**
 ```php
 $array = [
     1, 2, 3, 4, 5, 'six' => 6, 'seven' => 7, 8, 9, 'ten' => 10, 11
@@ -638,7 +650,7 @@ Arr::unsetByReference($array, 0, 'six', 'ten', 'unknown');
 // ]
 ```
 
-** Example: Remove values using keys in arrays **
+**Example 2: Removing values using keys in arrays**
 ```php
 $array = [
     1, 2, 3, 4, 5, 'six' => 6, 'seven' => 7, 8, 9, 'ten' => 10, 11
@@ -652,4 +664,5 @@ Arr::unsetByReference($array, [0, 1], ['six', 'ten', 'unknown']);
 // ]
 ```
 
-See [`Arr::unset()`](#array-unset).
+**See also**:
+- [Arr::unset()](#array-unset).
